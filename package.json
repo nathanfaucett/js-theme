@@ -1,0 +1,30 @@
+{
+  "name": "theme",
+  "version": "0.0.1",
+  "description": "css theme helper class for node and the browser",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bakasho-libs/theme.git"
+  },
+  "scripts": {
+    "example": "comn -f example/src/index.js -o example/index.js"
+  },
+  "main": "src/index.js",
+  "style": "src/index.less",
+  "author": "Bakasho Team",
+  "license": "MIT",
+  "keywords": [
+    "theme",
+    "theme.js"
+  ],
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-jshint": "^0.11.2",
+    "grunt-jsbeautifier": "^0.2.7"
+  },
+  "dependencies": {
+    "inherits": "git://github.com/nathanfaucett/inherits.git",
+    "extend": "git://github.com/nathanfaucett/extend.git"
+  }
+}
