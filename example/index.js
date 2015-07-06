@@ -68,7 +68,7 @@ MaterialUIThemePrototype.getPalette = function() {
     return palette;
 };
 
-MaterialUIThemePrototype.getStyle = function(palette, spacing) {
+MaterialUIThemePrototype.getStyles = function(palette, spacing) {
     var style = {};
 
     style.button = {
@@ -100,12 +100,12 @@ function Theme() {
     this.fontFamily = "Arial, Helvetica, sans-serif";
     this.spacing = this.getSpacing();
     this.palette = this.getPalette();
-    this.styles = this.getStyle(this.palette, this.spacing);
+    this.styles = this.getStyles(this.palette, this.spacing);
 }
 ThemePrototype = Theme.prototype;
 
 Theme.extend = function extend(child, displayName) {
-    inherits(this, child);
+    inherits(child, this);
     child.prototype.displayName = displayName || "Theme";
     child.extend = extend;
     return child;
@@ -115,7 +115,7 @@ ThemePrototype.displayName = "Theme";
 
 ThemePrototype.setSpacing = function(newSpacing) {
     extend(this.spacing, newSpacing);
-    extend(this.styles, this.getStyle(this.palette, this.spacing));
+    extend(this.styles, this.getStyles(this.palette, this.spacing));
     return this;
 };
 
@@ -125,7 +125,7 @@ ThemePrototype.getSpacing = function() {
 
 ThemePrototype.setPalette = function(newPalette) {
     extend(this.palette, newPalette);
-    extend(this.styles, this.getStyle(this.palette, this.spacing));
+    extend(this.styles, this.getStyles(this.palette, this.spacing));
     return this;
 };
 
@@ -138,7 +138,7 @@ ThemePrototype.setStyle = function(styles) {
     return this;
 };
 
-ThemePrototype.getStyle = function( /* palette, spacing */ ) {
+ThemePrototype.getStyles = function( /* palette, spacing */ ) {
     return {};
 };
 
@@ -419,13 +419,17 @@ function inherits(child, parent) {
 
     mixin(child, parent);
 
-    child.prototype = extend(create(parent.prototype), child.prototype);
+    if (child.__super) {
+        child.prototype = extend(create(parent.prototype), child.__super, child.prototype);
+    } else {
+        child.prototype = extend(create(parent.prototype), child.prototype);
+    }
 
     defineNonEnumerableProperty(child, "__super", parent.prototype);
     defineNonEnumerableProperty(child.prototype, "constructor", child);
 
     child.defineStatic = defineStatic;
-    child.super_ = parent; // support node
+    child.super_ = parent;
 
     return child;
 }
@@ -445,13 +449,21 @@ function defineStatic(name, value) {
 },
 function(require, exports, module, global) {
 
-module.exports = Object.create || (function() {
-    function F() {}
-    return function create(object) {
+var create, F;
+
+
+if (Object.create) {
+    create = Object.create;
+} else {
+    F = function F() {};
+    create = function create(object) {
         F.prototype = object;
         return new F();
     };
-}());
+}
+
+
+module.exports = create;
 
 
 },
@@ -460,6 +472,20 @@ function(require, exports, module, global) {
 var keys = require(3),
     isNullOrUndefined = require(7);
 
+
+module.exports = mixin;
+
+
+function mixin(out) {
+    var i = 0,
+        il = arguments.length - 1;
+
+    while (i++ < il) {
+        baseMixin(out, arguments[i]);
+    }
+
+    return out;
+}
 
 function baseMixin(a, b) {
     var objectKeys = keys(b),
@@ -476,17 +502,6 @@ function baseMixin(a, b) {
     }
 }
 
-module.exports = function mixin(out) {
-    var i = 0,
-        il = arguments.length - 1;
-
-    while (i++ < il) {
-        baseMixin(out, arguments[i]);
-    }
-
-    return out;
-};
-
 
 },
 function(require, exports, module, global) {
@@ -499,7 +514,14 @@ var isFunction = require(6),
 var defineProperty;
 
 
-if (!isNative(Object.defineProperty)) {
+if (!isNative(Object.defineProperty) || (function() {
+        try {
+            Object.defineProperty({}, "key", {});
+        } catch (e) {
+            return true;
+        }
+        return false;
+    }())) {
     defineProperty = function defineProperty(object, name, value) {
         if (!isObjectLike(object)) {
             throw new TypeError("defineProperty called on non-object");
@@ -510,15 +532,19 @@ if (!isNative(Object.defineProperty)) {
     defineProperty = Object.defineProperty;
 }
 
+
 module.exports = defineProperty;
 
 
 },
 function(require, exports, module, global) {
 
-module.exports = function isObjectLike(obj) {
+module.exports = isObjectLike;
+
+
+function isObjectLike(obj) {
     return (obj && typeof(obj) === "object") || false;
-};
+}
 
 
 }], void 0, (new Function("return this;"))()));

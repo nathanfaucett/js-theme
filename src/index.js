@@ -12,12 +12,12 @@ function Theme() {
     this.fontFamily = "Arial, Helvetica, sans-serif";
     this.spacing = this.getSpacing();
     this.palette = this.getPalette();
-    this.styles = this.getStyle(this.palette, this.spacing);
+    this.styles = this.getStyles(this.palette, this.spacing);
 }
 ThemePrototype = Theme.prototype;
 
 Theme.extend = function extend(child, displayName) {
-    inherits(this, child);
+    inherits(child, this);
     child.prototype.displayName = displayName || "Theme";
     child.extend = extend;
     return child;
@@ -27,7 +27,7 @@ ThemePrototype.displayName = "Theme";
 
 ThemePrototype.setSpacing = function(newSpacing) {
     extend(this.spacing, newSpacing);
-    extend(this.styles, this.getStyle(this.palette, this.spacing));
+    extend(this.styles, this.getStyles(this.palette, this.spacing));
     return this;
 };
 
@@ -37,7 +37,7 @@ ThemePrototype.getSpacing = function() {
 
 ThemePrototype.setPalette = function(newPalette) {
     extend(this.palette, newPalette);
-    extend(this.styles, this.getStyle(this.palette, this.spacing));
+    extend(this.styles, this.getStyles(this.palette, this.spacing));
     return this;
 };
 
@@ -50,6 +50,6 @@ ThemePrototype.setStyle = function(styles) {
     return this;
 };
 
-ThemePrototype.getStyle = function( /* palette, spacing */ ) {
+ThemePrototype.getStyles = function( /* palette, spacing */ ) {
     return {};
 };

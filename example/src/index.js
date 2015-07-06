@@ -27,7 +27,7 @@ MaterialUIThemePrototype.getPalette = function() {
     return palette;
 };
 
-MaterialUIThemePrototype.getStyle = function(palette, spacing) {
+MaterialUIThemePrototype.getStyles = function(palette, spacing) {
     var style = {};
 
     style.button = {
