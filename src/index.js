@@ -1,5 +1,5 @@
-var extend = require("extend"),
-    inherits = require("inherits");
+var extend = require("@nathanfaucett/extend"),
+    inherits = require("@nathanfaucett/inherits");
 
 
 var ThemePrototype;
