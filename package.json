@@ -1,13 +1,13 @@
 {
   "name": "@nathanfaucett/theme",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "css theme helper class for node and the browser",
   "repository": {
     "type": "git",
     "url": "https://github.com/nathanfaucett/theme.git"
   },
   "scripts": {
-    "example": "comn -f example/src/index.js -o example/index.js"
+    "example": "comn -f ./example/src/index.js -o ./example/index.js"
   },
   "main": "src/index.js",
   "style": "src/index.less",
@@ -19,12 +19,13 @@
   ],
   "readmeFilename": "README.md",
   "devDependencies": {
+    "@nathanfaucett/comn": "0.0.11",
     "grunt": "^1.0.1",
     "grunt-contrib-jshint": "^0.11.2",
     "grunt-jsbeautifier": "^0.2.13"
   },
   "dependencies": {
-    "@nathanfaucett/inherits": "^0.0.1",
-    "@nathanfaucett/extend": "^0.0.1"
+    "@nathanfaucett/inherits": "^0.0.2",
+    "@nathanfaucett/extend": "^0.0.2"
   }
 }

@@ -1,16 +1,16 @@
 var Theme = require("../..");
 
 
-var MaterialUIThemePrototype;
+var SomeThemePrototype;
 
 
-function MaterialUITheme() {
+function SomeTheme() {
     Theme.call(this);
 }
-Theme.extend(MaterialUITheme, "MaterialUITheme");
-MaterialUIThemePrototype = MaterialUITheme.prototype;
+Theme.extend(SomeTheme, "SomeTheme");
+SomeThemePrototype = SomeTheme.prototype;
 
-MaterialUIThemePrototype.getSpacing = function() {
+SomeThemePrototype.getSpacing = function() {
     var spacing = {};
 
     spacing.desktopSize = 4;
@@ -18,7 +18,7 @@ MaterialUIThemePrototype.getSpacing = function() {
     return spacing;
 };
 
-MaterialUIThemePrototype.getPalette = function() {
+SomeThemePrototype.getPalette = function() {
     var palette = {};
 
     palette.color0 = "#ff0000";
@@ -27,7 +27,7 @@ MaterialUIThemePrototype.getPalette = function() {
     return palette;
 };
 
-MaterialUIThemePrototype.getStyles = function(palette, spacing) {
+SomeThemePrototype.getStyles = function(palette, spacing) {
     var style = {};
 
     style.button = {
@@ -39,4 +39,4 @@ MaterialUIThemePrototype.getStyles = function(palette, spacing) {
 };
 
 
-console.log(new MaterialUITheme());
+console.log(new SomeTheme());
